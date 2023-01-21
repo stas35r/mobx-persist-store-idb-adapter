@@ -1,7 +1,5 @@
 # IndexedDB adapter for mobx-persist-store
 > Adapter for storing data using mobx-persist-store 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
 
 One to two paragraph statement about your product and what it does.
@@ -44,9 +42,6 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 [https://github.com/stas35r/mobx-persist-store-idb-adapter](https://github.com/stas35r/mobx-persist-store-idb-adapter)
 
 <!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/stas35r/mobx-persist-store-idb-adapter/wiki
+[npm-url]: https://npmjs.org/package/mobx-persist-store-idb-adapter
+[npm-downloads]: https://img.shields.io/npm/dm/mobx-persist-store-idb-adapter.svg?style=flat-square
+[wiki]: https://github.com/stas35r/mobx-persist-store-idb-adapter/README.md
