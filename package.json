@@ -2,7 +2,11 @@
   "name": "mobx-persist-store-idb-adapter",
   "version": "1.0.0-alpha",
   "description": "IndexedDB adapter for mobx-persist-store",
-  "repository": {},
+  "keywords": ["mobx", "mobx-persist-store", "indexedDB"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stas35r/mobx-persist-store-idb-adapter"
+  },
   "homepage": "",
   "main": "lib/adapter.js",
   "scripts": {
