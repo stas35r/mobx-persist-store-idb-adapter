@@ -1,6 +1,6 @@
 {
   "name": "mobx-persist-store-idb-adapter",
-  "version": "1.0.0-alpha",
+  "version": "1.0.1-alpha",
   "description": "IndexedDB adapter for mobx-persist-store",
   "keywords": ["mobx", "mobx-persist-store", "indexedDB"],
   "repository": {
