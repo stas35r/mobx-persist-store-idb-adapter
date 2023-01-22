@@ -2,7 +2,7 @@
 > Adapter for storing data using mobx-persist-store 
 [![Downloads Stats][npm-downloads]][npm-url]
 
-One to two paragraph statement about your product and what it does.
+Provides an IndexedDB adapter for the mobx-persist-store library.
 
 ## Installation
 
@@ -20,28 +20,50 @@ npm install mobx-persist-store-idb-adapter
 
 ## Usage example
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
+```ts
+import { makeAutoObservable } from "mobx";
+import { makePersistable } from "mobx-persist-store";
+import DBController from "mobx-persist-store-idb-adapter";
 
-_For more examples and usage, please refer to the [Wiki][wiki]._
+class StoreExample {
+    counter = 0;
 
-## Development setup
+    constructor() {
+        const indexedDBStore = new DBController("dbName", "objectStoreName", 1);
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
+        makeAutoObservable(this, {}, { autoBind: true });
 
-```sh
-make install
-npm test
+        makePersistable(this, {
+            name: "StoreExample",
+            properties: ["counter"],
+            storage: indexedDBStore,
+            stringify: false,
+        });
+    }
+
+    increase() {
+        this.counter += 1;
+    }
+
+    decrease() {
+        this.counter -= 1;
+    }
+}
+
+export const storeExample = new StoreExample();
+
+
 ```
 
 ## Meta
 
 stas35r – stas35r@gmail.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+Distributed under the MIT license. See [LICENSE][LICENSE] for more information.
 
 [https://github.com/stas35r/mobx-persist-store-idb-adapter](https://github.com/stas35r/mobx-persist-store-idb-adapter)
 
 <!-- Markdown link & img dfn's -->
 [npm-url]: https://npmjs.org/package/mobx-persist-store-idb-adapter
 [npm-downloads]: https://img.shields.io/npm/dm/mobx-persist-store-idb-adapter.svg?style=flat-square
-[wiki]: https://github.com/stas35r/mobx-persist-store-idb-adapter/README.md
+[LICENSE]: https://github.com/stas35r/mobx-persist-store-idb-adapter/blob/main/LICENSE.md
