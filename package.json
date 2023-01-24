@@ -1,8 +1,12 @@
 {
   "name": "mobx-persist-store-idb-adapter",
-  "version": "1.0.1-alpha",
+  "version": "1.1.0-alpha",
   "description": "IndexedDB adapter for mobx-persist-store",
-  "keywords": ["mobx", "mobx-persist-store", "indexedDB"],
+  "keywords": [
+    "mobx",
+    "mobx-persist-store",
+    "indexedDB"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stas35r/mobx-persist-store-idb-adapter"
@@ -14,11 +18,14 @@
     "build:bundle": "yarn tsc",
     "clean": "rimraf lib",
     "changelog": "standard-changelog",
-    "codegen": "echo codegen"
+    "codegen": "echo codegen",
+    "prepare": "husky install"
   },
   "author": "stas35r",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "concurrently": "^7.6.0",

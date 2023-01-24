@@ -1,4 +1,4 @@
-import { DBValue, StorageController } from "types";
+import { Config, DBValue, StorageController } from "types";
 
 class DBController implements StorageController {
   private db: IDBDatabase | null = null;
@@ -9,10 +9,16 @@ class DBController implements StorageController {
 
   private version: number;
 
+  private options: Config = {};
+
   constructor(dbName: string, storeName: string, version: number) {
     this.dbName = dbName;
     this.storeName = storeName;
     this.version = version;
+  }
+
+  config(options: Partial<Config>) {
+    this.options = { ...this.options, ...options };
   }
 
   async getItem<T>(key: IDBValidKey): Promise<DBValue<T>> {
@@ -61,12 +67,20 @@ class DBController implements StorageController {
   }
 
   private openDB() {
+    const { downgrading } = this.options;
+
     return new Promise<IDBDatabase>((res, rej) => {
       if (this.db) res(this.db);
 
       const dbRequest = indexedDB.open(this.dbName, this.version);
 
-      dbRequest.onerror = () => rej(dbRequest.error);
+      dbRequest.onerror = () => {
+        if (downgrading && this.isLessVersionError(dbRequest.error)) {
+          res(this.downgradeDB());
+        }
+
+        rej(dbRequest.error);
+      };
 
       dbRequest.onsuccess = () => {
         this.db = dbRequest.result;
@@ -87,8 +101,23 @@ class DBController implements StorageController {
     });
   }
 
+  async downgradeDB() {
+    await this.dropDB();
+
+    return this.openDB();
+  }
+
   dropDB() {
-    indexedDB.deleteDatabase(this.dbName);
+    const deleteRequest = indexedDB.deleteDatabase(this.dbName);
+
+    return new Promise<void>((res, rej) => {
+      deleteRequest.onsuccess = () => res();
+      deleteRequest.onerror = () => rej(deleteRequest.error);
+    });
+  }
+
+  private isLessVersionError(error: DOMException | null) {
+    return error?.name === "VersionError";
   }
 }
 
