@@ -1,4 +1,4 @@
-import { Config, DBValue, StorageController } from "types";
+import { Config, DBValue, StorageController } from "./types";
 
 class DBController implements StorageController {
   private db: IDBDatabase | null = null;
@@ -76,24 +76,31 @@ class DBController implements StorageController {
 
       dbRequest.onerror = () => {
         if (downgrading && this.isLessVersionError(dbRequest.error)) {
-          res(this.downgradeDB());
+          res(this.recreateDB());
         }
 
         rej(dbRequest.error);
       };
 
       dbRequest.onsuccess = () => {
-        this.db = dbRequest.result;
-        res(dbRequest.result);
-      };
-
-      dbRequest.onupgradeneeded = () => {
         const hasObjectStore = dbRequest.result.objectStoreNames.contains(
           this.storeName
         );
 
         if (hasObjectStore) {
-          dbRequest.result.deleteObjectStore(this.storeName);
+          this.db = dbRequest.result;
+          res(dbRequest.result);
+        } else {
+          dbRequest.result.close();
+          res(this.recreateDB());
+        }
+      };
+
+      dbRequest.onupgradeneeded = () => {
+        const storeNames = [...dbRequest.result.objectStoreNames];
+
+        for (let i = 0; i < storeNames.length; i++) {
+          dbRequest.result.deleteObjectStore(storeNames[i]);
         }
 
         dbRequest.result.createObjectStore(this.storeName);
@@ -101,7 +108,7 @@ class DBController implements StorageController {
     });
   }
 
-  async downgradeDB() {
+  async recreateDB() {
     await this.dropDB();
 
     return this.openDB();

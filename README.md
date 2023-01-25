@@ -65,7 +65,7 @@ indexedDBStore.config({ downgrading: true });
 ```
 
 ## Options
-   * `downgrading` - when opening a database with a version lower than the existing one, the database will be dropped and re-createcreate with a lower version, default is `false` 
+   * `downgrading` - when opening a database with a version lower than the existing one, the database will be dropped and re-create with a lower version, default is `false` 
 
 ## Meta
 

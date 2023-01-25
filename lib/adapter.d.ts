@@ -1,4 +1,4 @@
-import { Config, DBValue, StorageController } from "types";
+import { Config, DBValue, StorageController } from "./types";
 declare class DBController implements StorageController {
     private db;
     private storeName;
@@ -11,7 +11,7 @@ declare class DBController implements StorageController {
     setItem<T>(key: IDBValidKey, value: DBValue<T>): Promise<void>;
     removeItem(key: IDBValidKey): Promise<void>;
     private openDB;
-    downgradeDB(): Promise<IDBDatabase>;
+    recreateDB(): Promise<IDBDatabase>;
     dropDB(): Promise<void>;
     private isLessVersionError;
 }
